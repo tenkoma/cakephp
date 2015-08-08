@@ -549,8 +549,10 @@ class App {
 		$paths = static::path($package, $plugin);
 
 		if (empty($plugin)) {
-			$appLibs = empty(static::$_packages['Lib']) ? APPLIBS : current(static::$_packages['Lib']);
-			$paths[] = $appLibs . $package . DS;
+			$appLibsList = empty(static::$_packages['Lib']) ? array(APPLIBS) : static::$_packages['Lib'];
+			foreach($appLibsList as $appLibs) {
+				$paths[] = $appLibs . $package . DS;
+			}
 			$paths[] = APP . $package . DS;
 			$paths[] = CAKE . $package . DS;
 		} else {

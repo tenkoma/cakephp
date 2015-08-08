@@ -572,6 +572,24 @@ class AppTest extends CakeTestCase {
 		App::build();
 	}
 
+	/**
+	 * Test that the automatic class loader will also find in "libs" folder
+	 *
+	 * @return void
+	 */
+	public function testLoadClassFromSecondLibsPath() {
+		App::build(array(
+			'Lib' => array(
+				CAKE . 'Test' . DS . 'test_app' . DS . 'Lib' . DS,
+				CAKE . 'Test' . DS . 'test_app' . DS . 'LibTwo' . DS,
+			)
+		), App::RESET);
+
+		$this->assertFalse(class_exists('TestUtilityClassTwo'));
+		App::uses('TestUtilityClassTwo', 'Utility');
+		$this->assertTrue(class_exists('TestUtilityClassTwo'));
+	}
+
 /**
  * test that building helper paths actually works.
  *
