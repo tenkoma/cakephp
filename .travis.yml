@@ -16,7 +16,7 @@ env:
   matrix:
     - DB=mysql
   global:
-    - PHPUNIT=3.7.33
+    - PHPUNIT=3.7.38
 
 services:
   - memcached
@@ -37,10 +37,10 @@ matrix:
       env: PHPCS=1
 
     - php: 7.1
-      env: DB=mysql PHPUNIT=5.7.19
+      env: DB=mysql PHPUNIT=5.7.27
 
     - php: 7.2
-      env: DB=mysql PHPUNIT=5.7.19
+      env: DB=mysql PHPUNIT=5.7.27
   exclude:
     - php: 7.2
       env: DB=mysql
