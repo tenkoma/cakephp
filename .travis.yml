@@ -1,8 +1,5 @@
 language: php
 
-# We require precise here, as 5.3 doesn't exist on trusty.
-dist: precise
-
 php:
   - 5.3
   - 5.4
@@ -12,6 +9,7 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4snapshot
 
 env:
   matrix:
@@ -27,6 +25,8 @@ matrix:
   include:
     - php: 5.3
       env: DB=mysql PHPUNIT=4.8.35
+      # We require precise here, as 5.3 doesn't exist on trusty.
+      dist: precise
 
     - php: 5.4
       env: DB=pgsql
@@ -50,10 +50,13 @@ matrix:
       env: DB=mysql
     - php: 7.3
       env: DB=mysql
-
+  allow_failures:
+    - php: 7.4snapshot
+      env: DB=mysql PHPUNIT=5.7.19
+      dist: trusty
 
 before_script:
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} =~ ^7\.[23]$ ]] ; then pear config-set preferred_state snapshot && yes "" | pecl install mcrypt ; fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} =~ ^7\.[234]$ ]] ; then pear config-set preferred_state snapshot && yes "" | pecl install mcrypt ; fi
   - composer require "phpunit/phpunit=$PHPUNIT"
   - echo "require_once 'vendors/autoload.php';" >> app/Config/bootstrap.php
   - sudo locale-gen de_DE
